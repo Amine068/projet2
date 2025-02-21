@@ -4,4 +4,11 @@
 
 {% block body %}
 
+<h1>{{ annonce.title }}</h1>
+<p>{{ annonce.description }}</p>
+<p>{{ annonce.dateofpost.date }}</p>
+<p>{{ annonce.price }} €</p>
+
+<a href="{{ path('app_message', {id: annonce.id}) }}" class="p-2 text-white bg-[#004C5E] rounded-md m-2">Contacter</a>
+
 {% endblock %}

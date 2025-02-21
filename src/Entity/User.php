@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Conversation;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -58,21 +59,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Annonce>
      */
     #[ORM\ManyToMany(targetEntity: Annonce::class, inversedBy: 'users_favorite')]
+    #[ORM\JoinTable(name: 'user_favorite_annonce')]
     private Collection $favorite_annonces;
 
     #[ORM\Column]
     private ?bool $isAnonymize = false;
 
+
+    #[ORM\ManyToMany(targetEntity: Annonce::class, inversedBy: 'participants')]
+    private Collection $conversations;
+
     /**
      * @var Collection<int, Message>
      */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'UserSender')]
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'writer')]
     private Collection $messages;
+
 
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
         $this->favorite_annonces = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }
 
@@ -265,6 +273,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations->add($conversation);
+            $conversation->addParticipant($this);
+        }
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): self
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            $conversation->removeParticipant($this);
+        }
+        return $this;
+    }
+
     /**
      * @return Collection<int, Message>
      */
@@ -277,7 +307,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->messages->contains($message)) {
             $this->messages->add($message);
-            $message->setUserSender($this);
+            $message->setWriter($this);
         }
 
         return $this;
@@ -287,11 +317,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
-            if ($message->getUserSender() === $this) {
-                $message->setUserSender(null);
+            if ($message->getWriter() === $this) {
+                $message->setWriter(null);
             }
         }
 
         return $this;
     }
+
 }

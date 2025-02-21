@@ -50,6 +50,8 @@ final class AnnonceController extends AbstractController
         // on verifie si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
 
+            dump($_POST);
+
             $images = $form->get('images')->getData();
             if ($images) {
                 if ($annonce->getImages()) {
@@ -101,6 +103,8 @@ final class AnnonceController extends AbstractController
 
             // on execute la requete (prepare / execute du PDO en PHP natif)
             $entityManager->flush();
+
+            dd($annonce);
     
             // on redirige l'utilisateur vers la page d'accueil
             return $this->redirectToRoute('app_account');

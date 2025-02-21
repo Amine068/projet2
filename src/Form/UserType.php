@@ -28,7 +28,7 @@ class UserType extends AbstractType
                 'required' => false,
             ])
             ->add('Valider', SubmitType::class, [
-                'attr' => ['class' => 'p-2 bg-blue-500 text-white rounded-md'],
+                'attr' => ['class' => 'p-2 bg-[#004C5E] text-white rounded-md'],
             ]);
     }
 

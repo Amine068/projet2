@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\AnnonceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Conversation;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AnnonceRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
 class Annonce
@@ -72,16 +73,16 @@ class Annonce
     private Collection $users_favorite;
 
     /**
-     * @var Collection<int, Message>
+     * @var Collection<int, Conversations>
      */
-    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'Annonce')]
-    private Collection $messages;
+    #[ORM\OneToMany(targetEntity: Conversation::class, mappedBy: 'Annonce')]
+    private Collection $conversations;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->users_favorite = new ArrayCollection();
-        $this->messages = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -317,27 +318,27 @@ class Annonce
     /**
      * @return Collection<int, Message>
      */
-    public function getMessages(): Collection
+    public function getconversations(): Collection
     {
-        return $this->messages;
+        return $this->conversations;
     }
 
-    public function addMessage(Message $message): static
+    public function addMessage(Conversation $conversations): static
     {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
+        if (!$this->conversations->contains($message)) {
+            $this->conversations->add($message);
             $message->setAnnonce($this);
         }
 
         return $this;
     }
 
-    public function removeMessage(Message $message): static
+    public function removeMessage(Conversation $conversations): static
     {
-        if ($this->messages->removeElement($message)) {
+        if ($this->conversations->removeElement($conversation)) {
             // set the owning side to null (unless already changed)
-            if ($message->getAnnonce() === $this) {
-                $message->setAnnonce(null);
+            if ($conversation->getAnnonce() === $this) {
+                $conversation->setAnnonce(null);
             }
         }
 

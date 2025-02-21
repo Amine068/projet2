@@ -17,16 +17,16 @@ class Message
     #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
 
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $UserSender = null;
-
-    #[ORM\ManyToOne(inversedBy: 'messages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Annonce $Annonce = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $sendDate = null;
+
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Conversation $conversation = null;
+
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $writer = null;
 
     public function getId(): ?int
     {
@@ -45,30 +45,6 @@ class Message
         return $this;
     }
 
-    public function getUserSender(): ?User
-    {
-        return $this->UserSender;
-    }
-
-    public function setUserSender(?User $UserSender): static
-    {
-        $this->UserSender = $UserSender;
-
-        return $this;
-    }
-
-    public function getAnnonce(): ?Annonce
-    {
-        return $this->Annonce;
-    }
-
-    public function setAnnonce(?Annonce $Annonce): static
-    {
-        $this->Annonce = $Annonce;
-
-        return $this;
-    }
-
     public function getSendDate(): ?\DateTimeInterface
     {
         return $this->sendDate;
@@ -77,6 +53,30 @@ class Message
     public function setSendDate(\DateTimeInterface $sendDate): static
     {
         $this->sendDate = $sendDate;
+
+        return $this;
+    }
+
+    public function getConversation(): ?Conversation
+    {
+        return $this->conversation;
+    }
+
+    public function setConversation(?Conversation $conversation): static
+    {
+        $this->conversation = $conversation;
+
+        return $this;
+    }
+
+    public function getWriter(): ?User
+    {
+        return $this->writer;
+    }
+
+    public function setWriter(?User $writer): static
+    {
+        $this->writer = $writer;
 
         return $this;
     }
