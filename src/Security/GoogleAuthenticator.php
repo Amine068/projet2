@@ -56,6 +56,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                     // }
                     $user->setRoles(['ROLE_USER']);
                     $user->setGoogleId($googleUser->getId());
+                    $user->setIsVerified(true);
     
                     $this->userRepository->save($user, true);
                 }

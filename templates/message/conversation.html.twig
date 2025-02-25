@@ -22,7 +22,7 @@
                 <div class="h-96 overflow-y-auto mb-4 space-y-4">
                     {% for message in messages %}
                         <div class="flex {% if message.writer == app.user %}justify-end{% endif %}">
-                            <div class="max-w-[75%] {% if message.writer == app.user %}bg-blue-500 text-white{% else %}bg-gray-100{% endif %} rounded-lg px-4 py-2">
+                            <div class="max-w-[75%] {% if message.writer == app.user %}bg-[#004C5E] text-white{% else %}bg-gray-100{% endif %} rounded-lg px-4 py-2">
                                 <p>{{ message.text }}</p>
                                 <p class="text-xs {% if message.writer == app.user %}text-blue-100{% else %}text-gray-500{% endif %} mt-1">
                                     {{ message.writer.username }} - {{ message.sendDate|date('H:i d/m/Y') }}
@@ -43,7 +43,7 @@
                         }
                     }) }}
                     {{ form_errors(form.text) }}
-                    <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                    <button type="submit" class="w-full bg-[#004C5E] text-white py-2 rounded-lg hover:bg-[#003744]">
                         Envoyer
                     </button>
                 {{ form_end(form) }}
