@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use App\Entity\User;
 use App\Entity\Annonce;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ConversationRepository;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: ConversationRepository::class)]
 class Conversation
@@ -16,13 +17,6 @@ class Conversation
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-
-    /**
-     * @var Collection<int, User>
-     */
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'conversations')]
-    private Collection $participants;
 
 
     #[ORM\ManyToOne(inversedBy: 'conversations')]
@@ -34,6 +28,10 @@ class Conversation
      */
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'conversation', orphanRemoval: true)]
     private Collection $messages;
+
+    #[ORM\ManyToOne(inversedBy: 'conversations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -57,27 +55,6 @@ class Conversation
         return $this;
     }
 
-    public function getParticipants(): Collection
-    {
-        return $this->participants;
-    }
-    
-    public function addParticipant(User $user): self
-    {
-        if (!$this->participants->contains($user)) {
-            $this->participants->add($user);
-            $user->addConversation($this);
-        }
-        return $this;
-    }
-    
-    public function removeParticipant(User $user): self
-    {
-        if ($this->participants->removeElement($user)) {
-            $user->removeConversation($this);
-        }
-        return $this;
-    }
 
     /**
      * @return Collection<int, Message>
@@ -105,6 +82,18 @@ class Conversation
                 $message->setConversation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

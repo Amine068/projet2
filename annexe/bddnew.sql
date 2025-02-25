@@ -15,27 +15,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Listage de la structure de la base pour projettest_amine
-CREATE DATABASE IF NOT EXISTS `projettest_amine` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `projettest_amine`;
+-- Listage de la structure de la base pour projet
+CREATE DATABASE IF NOT EXISTS `projet` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `projet`;
 
--- Listage de la structure de table projettest_amine. annonce
+-- Listage de la structure de table projet. annonce
 CREATE TABLE IF NOT EXISTS `annonce` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date_of_post` datetime NOT NULL,
-  `price` double NOT NULL,
-  `state` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `zipcode` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_validated` tinyint(1) NOT NULL DEFAULT '0',
-  `is_visible` tinyint(1) NOT NULL,
-  `is_locked` tinyint(1) NOT NULL DEFAULT '0',
-  `telephone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `subcategory_id` int DEFAULT NULL,
   `user_id` int NOT NULL,
   `category_id` int DEFAULT NULL,
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date_of_post` datetime NOT NULL,
+  `price` double NOT NULL,
+  `state` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `zipcode` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_validated` tinyint(1) NOT NULL DEFAULT '0',
+  `is_visible` tinyint(1) NOT NULL,
+  `is_locked` tinyint(1) NOT NULL DEFAULT '0',
+  `telephone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_F65593E55DC6FE57` (`subcategory_id`),
   KEY `IDX_F65593E5A76ED395` (`user_id`),
@@ -43,21 +43,20 @@ CREATE TABLE IF NOT EXISTS `annonce` (
   CONSTRAINT `FK_F65593E512469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `FK_F65593E55DC6FE57` FOREIGN KEY (`subcategory_id`) REFERENCES `subcategory` (`id`),
   CONSTRAINT `FK_F65593E5A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projettest_amine.annonce : ~2 rows (environ)
-INSERT INTO `annonce` (`id`, `title`, `description`, `date_of_post`, `price`, `state`, `city`, `zipcode`, `is_validated`, `is_visible`, `is_locked`, `telephone`, `subcategory_id`, `user_id`, `category_id`) VALUES
-	(1, 'test', 'testtttt', '2025-02-11 13:28:16', 21, 'neuf', 'Mulhouse', '68100', 0, 1, 0, '101010101', NULL, 9, NULL),
-	(4, 'aaa', 'AAZEZA', '2025-02-19 12:40:35', 21, 'Très bon état', 'Mulhouse', '68100', 0, 0, 0, '0101010101', 23, 10, 7);
+-- Listage des données de la table projet.annonce : ~0 rows (environ)
+INSERT INTO `annonce` (`id`, `subcategory_id`, `user_id`, `category_id`, `title`, `description`, `date_of_post`, `price`, `state`, `city`, `zipcode`, `is_validated`, `is_visible`, `is_locked`, `telephone`) VALUES
+	(1, 2, 1, 1, 'Testt', 'aaaa', '2025-02-24 13:50:04', 216, 'Neuf', 'Mulhouse', '68100', 0, 0, 0, '0101010101');
 
--- Listage de la structure de table projettest_amine. category
+-- Listage de la structure de table projet. category
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projettest_amine.category : ~9 rows (environ)
+-- Listage des données de la table projet.category : ~0 rows (environ)
 INSERT INTO `category` (`id`, `name`) VALUES
 	(1, 'Vidéo & Son'),
 	(3, 'Ordinateur'),
@@ -69,73 +68,82 @@ INSERT INTO `category` (`id`, `name`) VALUES
 	(9, 'Electroménager'),
 	(10, 'Autre accessoire');
 
--- Listage de la structure de table projettest_amine. doctrine_migration_versions
+-- Listage de la structure de table projet. conversation
+CREATE TABLE IF NOT EXISTS `conversation` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `annonce_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_8A8E26E98805AB2F` (`annonce_id`),
+  KEY `IDX_8A8E26E9A76ED395` (`user_id`),
+  CONSTRAINT `FK_8A8E26E98805AB2F` FOREIGN KEY (`annonce_id`) REFERENCES `annonce` (`id`),
+  CONSTRAINT `FK_8A8E26E9A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage des données de la table projet.conversation : ~0 rows (environ)
+INSERT INTO `conversation` (`id`, `annonce_id`, `user_id`) VALUES
+	(1, 1, 2);
+
+-- Listage de la structure de table projet. doctrine_migration_versions
 CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
-  `version` varchar(191) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `version` varchar(191) COLLATE utf8mb3_unicode_ci NOT NULL,
   `executed_at` datetime DEFAULT NULL,
   `execution_time` int DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table projettest_amine.doctrine_migration_versions : ~18 rows (environ)
+-- Listage des données de la table projet.doctrine_migration_versions : ~0 rows (environ)
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-	('DoctrineMigrations\\Version20250204152401', '2025-02-04 15:24:17', 35),
-	('DoctrineMigrations\\Version20250205134511', '2025-02-05 13:45:24', 44),
-	('DoctrineMigrations\\Version20250206224203', '2025-02-07 07:37:16', 58),
-	('DoctrineMigrations\\Version20250207073644', '2025-02-07 07:37:16', 3),
-	('DoctrineMigrations\\Version20250210184142', '2025-02-11 07:35:35', 37),
-	('DoctrineMigrations\\Version20250211073527', '2025-02-11 07:36:20', 13),
-	('DoctrineMigrations\\Version20250211081648', '2025-02-11 08:16:56', 78),
-	('DoctrineMigrations\\Version20250211093554', '2025-02-11 09:36:00', 76),
-	('DoctrineMigrations\\Version20250211132102', '2025-02-11 13:21:05', 54),
-	('DoctrineMigrations\\Version20250211132614', '2025-02-11 13:26:18', 7),
-	('DoctrineMigrations\\Version20250213185245', '2025-02-13 18:52:52', 122),
-	('DoctrineMigrations\\Version20250214073122', '2025-02-18 21:05:42', 64),
-	('DoctrineMigrations\\Version20250214073649', '2025-02-18 21:05:42', 29),
-	('DoctrineMigrations\\Version20250218210346', '2025-02-18 21:05:42', 15),
-	('DoctrineMigrations\\Version20250218212435', '2025-02-18 21:24:44', 80),
-	('DoctrineMigrations\\Version20250218212557', '2025-02-18 21:26:00', 14),
-	('DoctrineMigrations\\Version20250219072827', '2025-02-19 07:28:34', 75),
-	('DoctrineMigrations\\Version20250219132003', '2025-02-19 13:20:08', 98),
-	('DoctrineMigrations\\Version20250220222908', '2025-02-20 22:29:19', 25),
-	('DoctrineMigrations\\Version20250220234739', '2025-02-20 23:47:55', 93);
+	('DoctrineMigrations\\Version20250224134724', '2025-02-24 13:47:28', 73);
 
--- Listage de la structure de table projettest_amine. image
+-- Listage de la structure de table projet. image
 CREATE TABLE IF NOT EXISTS `image` (
   `id` int NOT NULL AUTO_INCREMENT,
   `annonce_id` int NOT NULL,
-  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_C53D045F8805AB2F` (`annonce_id`),
   CONSTRAINT `FK_C53D045F8805AB2F` FOREIGN KEY (`annonce_id`) REFERENCES `annonce` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projettest_amine.image : ~0 rows (environ)
+-- Listage des données de la table projet.image : ~0 rows (environ)
 INSERT INTO `image` (`id`, `annonce_id`, `path`) VALUES
-	(8, 4, '67b5d14304c9a.png');
+	(1, 1, '67bc790cad314.jpg');
 
--- Listage de la structure de table projettest_amine. message
+-- Listage de la structure de table projet. message
 CREATE TABLE IF NOT EXISTS `message` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_sender_id` int NOT NULL,
-  `annonce_id` int NOT NULL,
+  `conversation_id` int NOT NULL,
+  `writer_id` int NOT NULL,
   `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `send_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `IDX_B6BD307FF6C43E79` (`user_sender_id`),
-  KEY `IDX_B6BD307F8805AB2F` (`annonce_id`),
-  CONSTRAINT `FK_B6BD307F8805AB2F` FOREIGN KEY (`annonce_id`) REFERENCES `annonce` (`id`),
-  CONSTRAINT `FK_B6BD307FF6C43E79` FOREIGN KEY (`user_sender_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `IDX_B6BD307F9AC0396` (`conversation_id`),
+  KEY `IDX_B6BD307F1BC7E6B6` (`writer_id`),
+  CONSTRAINT `FK_B6BD307F1BC7E6B6` FOREIGN KEY (`writer_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `FK_B6BD307F9AC0396` FOREIGN KEY (`conversation_id`) REFERENCES `conversation` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projettest_amine.message : ~0 rows (environ)
+-- Listage des données de la table projet.message : ~0 rows (environ)
+INSERT INTO `message` (`id`, `conversation_id`, `writer_id`, `text`, `send_date`) VALUES
+	(1, 1, 2, 'test', '2025-02-24 13:58:06'),
+	(2, 1, 2, 'aaa', '2025-02-24 13:58:46'),
+	(4, 1, 2, 'aaa', '2025-02-24 14:57:07'),
+	(5, 1, 2, 'aaaaaaa', '2025-02-24 14:57:20'),
+	(6, 1, 1, 'aaa', '2025-02-24 14:57:57'),
+	(7, 1, 2, 'qsqd', '2025-02-24 14:58:11'),
+	(8, 1, 1, 'aaa', '2025-02-24 14:58:56'),
+	(9, 1, 1, 'asdq', '2025-02-24 15:04:52'),
+	(10, 1, 2, 'bonjour', '2025-02-24 15:05:02'),
+	(11, 1, 1, 'bonjour test', '2025-02-24 15:05:35'),
+	(12, 1, 2, 'ca va', '2025-02-24 15:06:10');
 
--- Listage de la structure de table projettest_amine. messenger_messages
+-- Listage de la structure de table projet. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `body` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `headers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue_name` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `headers` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue_name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `available_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `delivered_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
@@ -145,19 +153,19 @@ CREATE TABLE IF NOT EXISTS `messenger_messages` (
   KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projettest_amine.messenger_messages : ~0 rows (environ)
+-- Listage des données de la table projet.messenger_messages : ~0 rows (environ)
 
--- Listage de la structure de table projettest_amine. subcategory
+-- Listage de la structure de table projet. subcategory
 CREATE TABLE IF NOT EXISTS `subcategory` (
   `id` int NOT NULL AUTO_INCREMENT,
   `category_id` int NOT NULL,
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_DDCA44812469DE2` (`category_id`),
   CONSTRAINT `FK_DDCA44812469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projettest_amine.subcategory : ~0 rows (environ)
+-- Listage des données de la table projet.subcategory : ~0 rows (environ)
 INSERT INTO `subcategory` (`id`, `category_id`, `name`) VALUES
 	(2, 1, 'Retroprojecteur'),
 	(3, 1, 'table de mixage'),
@@ -193,50 +201,38 @@ INSERT INTO `subcategory` (`id`, `category_id`, `name`) VALUES
 	(34, 10, 'Objets connectés'),
 	(35, 10, 'Autres accessoires');
 
--- Listage de la structure de table projettest_amine. user
+-- Listage de la structure de table projet. user
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
   `roles` json NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_verified` tinyint(1) NOT NULL,
-  `google_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `google_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_anonymize` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_EMAIL` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projettest_amine.user : ~0 rows (environ)
-INSERT INTO `user` (`id`, `email`, `username`, `roles`, `password`, `is_verified`, `google_id`, `avatar`, `is_anonymize`) VALUES
-	(1, 'aaa@aaa.fr', 'aaaa', '[]', '$2y$13$u5FCiQ0Ra9KSp3saarkVd.do3IBaSLRyxJTwxtFOm0KRq/EWaUGva', 0, NULL, NULL, 0),
-	(2, 'bbb@bbb.fr', 'bbbb', '[]', '$2y$13$0jZqK93CeslQ2cT.M.n51.ZdsspHlWSwYp81e0f5ilD8zwecq33oa', 1, NULL, NULL, 0),
-	(3, 'ccc@ccc.fr', 'cccc', '[]', '$2y$13$t8FlujAU2Yih.jmHyiRhiecBWG5n97zMne.56RDtQpme2F3BicBuS', 1, NULL, NULL, 0),
-	(4, 'ddd@ddd.fr', 'dddd', '[]', '$2y$13$ABTrY6SR.oFB4w24Ela8xecfS/KhLP6yPXcR.oPO2.ey7uGczXfYa', 1, NULL, NULL, 0),
-	(5, 'eee@eee.fr', 'dddd', '[]', '$2y$13$0HsIMRdOffENVm1.E6o8vOTe/eNsP/v2Zeo1UNHapEmF2CscPyZaq', 0, NULL, NULL, 0),
-	(6, 'fff@fff.fr', 'dddd', '[]', '$2y$13$vFAVOj.DK21G7QzNPDcEOeME4CpBHQ5V2o4YORGSMWdW.5hlN6Rbi', 1, NULL, NULL, 0),
-	(9, 'aaaa@aaa.fr', 'dddd', '["ROLE_USER"]', '$2y$13$IEq510YYihD/Lop/W0m4DerNobH7FQ19tmsmKwLpF0rZUICohVsTm', 0, NULL, NULL, 0),
-	(10, 'aaaaa@aa.fr', 'dddd', '["ROLE_USER"]', '$2y$13$eC.uELbvpcKVffV8OIYzb.wE41Ap8ZtbOe6nkqWtSi9CXaN5qtVv2', 0, NULL, 'https://lh3.googleusercontent.com/a/ACg8ocKJVmtUHRLmWxOQdOXUlOi-2G3unw0TrrTSTeBd1mKOHgiTO4dM=s96-c', 0),
-	(14, 'aaaaa@aaa.fr', 'dddd', '["ROLE_USER"]', '$2y$13$8P7RRdkUgXLtFLh6otIuFuOBzLF5sjSYOqJlnnt2oscURM9t4wV2C', 0, NULL, '67b5d14304c9a.png', 0),
-	(27, 'aminebouguettaya5@gmail.com', 'Amine', '["ROLE_USER"]', NULL, 0, '111905829402869664208', '67b5f5bee0d69.png', 0),
-	(28, 'aminebou0409@gmail.com', 'amine', '["ROLE_USER"]', NULL, 0, '105097695881481703521', NULL, 0),
-	(29, '90d1e014b939c43d489845fe1be7f2fac36cdd8124662e382aecfeeb4edfb524', '67b701e7d5689', '["ROLE_DELETE"]', 'a6c14bc9e29bcc857e3a9224dc91ee6292a80ee60ec378bb3261b6c3803d96c0', 0, NULL, NULL, 0);
+-- Listage des données de la table projet.user : ~0 rows (environ)
+INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `google_id`, `username`, `avatar`, `is_anonymize`) VALUES
+	(1, 'aminebouguettaya5@gmail.com', '["ROLE_USER"]', NULL, 0, '111905829402869664208', 'Amine', NULL, 0),
+	(2, 'tizane005@gmail.com', '["ROLE_USER"]', NULL, 0, '118425511114362492438', 'tizane', NULL, 0);
 
--- Listage de la structure de table projettest_amine. user_annonce
-CREATE TABLE IF NOT EXISTS `user_annonce` (
+-- Listage de la structure de table projet. user_favorite_annonce
+CREATE TABLE IF NOT EXISTS `user_favorite_annonce` (
   `user_id` int NOT NULL,
   `annonce_id` int NOT NULL,
   PRIMARY KEY (`user_id`,`annonce_id`),
-  KEY `IDX_AE588DEFA76ED395` (`user_id`),
-  KEY `IDX_AE588DEF8805AB2F` (`annonce_id`),
-  CONSTRAINT `FK_AE588DEF8805AB2F` FOREIGN KEY (`annonce_id`) REFERENCES `annonce` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_AE588DEFA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+  KEY `IDX_D6147F56A76ED395` (`user_id`),
+  KEY `IDX_D6147F568805AB2F` (`annonce_id`),
+  CONSTRAINT `FK_D6147F568805AB2F` FOREIGN KEY (`annonce_id`) REFERENCES `annonce` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_D6147F56A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projettest_amine.user_annonce : ~0 rows (environ)
-INSERT INTO `user_annonce` (`user_id`, `annonce_id`) VALUES
-	(27, 1);
+-- Listage des données de la table projet.user_favorite_annonce : ~0 rows (environ)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conversation - {{ conversation.annonce.title }}{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 my-8">
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white rounded-lg shadow">
+            <div class="flex justify-between items-center p-4 border-b">
+                <div>
+                    <h2 class="text-xl font-semibold">{{ conversation.annonce.title }}</h2>
+                    <p class="text-sm text-gray-600">
+                        {% if app.user == conversation.user %}
+                            Conversation avec {{ conversation.annonce.user.username }}
+                        {% else %}
+                            Conversation avec {{ conversation.user.username }}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="p-4">
+                <div class="h-96 overflow-y-auto mb-4 space-y-4">
+                    {% for message in messages %}
+                        <div class="flex {% if message.writer == app.user %}justify-end{% endif %}">
+                            <div class="max-w-[75%] {% if message.writer == app.user %}bg-blue-500 text-white{% else %}bg-gray-100{% endif %} rounded-lg px-4 py-2">
+                                <p>{{ message.text }}</p>
+                                <p class="text-xs {% if message.writer == app.user %}text-blue-100{% else %}text-gray-500{% endif %} mt-1">
+                                    {{ message.writer.username }} - {{ message.sendDate|date('H:i d/m/Y') }}
+                                </p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-center text-gray-500">Envoyer un message pour commencer la conversation</p>
+                    {% endfor %}
+                </div>
+
+                {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+                    {{ form_widget(form.text, {
+                        'attr': {
+                            'class': 'w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500',
+                            'placeholder': 'Ecrivez votre message...',
+                            'rows': 3
+                        }
+                    }) }}
+                    {{ form_errors(form.text) }}
+                    <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+                        Envoyer
+                    </button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const messagesContainer = document.querySelector('.overflow-y-auto');
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    setInterval(function() {
+        fetch(window.location.href)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newMessages = doc.querySelector('.overflow-y-auto').innerHTML;
+                if (messagesContainer.innerHTML !== newMessages) {
+                    messagesContainer.innerHTML = newMessages;
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            });
+    }, 3000);
+});
+</script>
+{% endblock %}
