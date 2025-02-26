@@ -72,16 +72,17 @@ final class MessageController extends AbstractController
     {
         $categories = $entityManager->getRepository(Category::class)->findAll();
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-    
+
         $message = new Message();
-        $message->setWriter($this->getUser());
-        $message->setSendDate(new \DateTime());
-        $message->setConversation($conversation);
-    
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $message->setWriter($this->getUser());
+            $message->setSendDate(new \DateTime());
+            $message->setConversation($conversation);
+
             $entityManager->persist($message);
             $entityManager->flush();
     

@@ -33,13 +33,12 @@
                         <p class="text-center text-gray-500">Envoyer un message pour commencer la conversation</p>
                     {% endfor %}
                 </div>
-
-                {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+                {{ form_start(form, {'attr': {'class': 'space-y-4', 'data-turbo': 'false'}}) }}
                     {{ form_widget(form.text, {
                         'attr': {
                             'class': 'w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500',
                             'placeholder': 'Ecrivez votre message...',
-                            'rows': 3
+                            'rows': 2
                         }
                     }) }}
                     {{ form_errors(form.text) }}
