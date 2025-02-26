@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+
+<div class="flex flex-grow">
+<nav class="flex flex-col gap-4 w-1/4 bg-[#004C5E] text-white p-4">
+    <a href=" {{ path('app_admin_user') }} ">Utilisateurs</a>
+    <a href="{{ path('app_category') }}">Catégorie</a>
+</nav>
+<div></div>
+</div>
+
+{% endblock %}

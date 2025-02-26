@@ -72,29 +72,37 @@ final class MessageController extends AbstractController
     {
         $categories = $entityManager->getRepository(Category::class)->findAll();
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
+    
         $message = new Message();
         $message->setWriter($this->getUser());
         $message->setSendDate(new \DateTime());
         $message->setConversation($conversation);
-
+    
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
-
+    
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($message);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_conversation', ['id' => $conversation->getId()]);
+    
+            // Retourner une réponse JSON pour l'AJAX
+            return $this->json([
+                'success' => true,
+                'message' => [
+                    'text' => $message->getText(),
+                    'writer' => $message->getWriter()->getUsername(),
+                    'sendDate' => $message->getSendDate()->format('H:i d/m/Y')
+                ]
+            ]);
         }
-
+    
         $messages = $entityManager->getRepository(Message::class)->findBy(['conversation' => $conversation], ['sendDate' => 'ASC']);
-
+    
         return $this->render('message/conversation.html.twig', [
             'categories' => $categories,
             'conversation' => $conversation,
             'messages' => $messages,
             'form' => $form
         ]);
-    }
+    }    
 }

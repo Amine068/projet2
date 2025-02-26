@@ -83,6 +83,9 @@
                     </form>
                 </div>
                 <nav class="headerNavTop">
+                    {% if (app.user is not null) and (is_granted('ROLE_MODERATEUR')) %}
+                    <a href="{{ path('app_admin') }}" class="navElementTop">Dashboard</a>
+                    {% endif %}
                     <a href="{{ path('app_favorites') }}" class="navElementTop">Favoris</a>
                     <a href="" class="navElementTop">Messages</a>
                     {% if app.user is not null %}
@@ -131,7 +134,6 @@
                 </div>
             </div>
             <p>© 2025  Mon Projet -  Toutes droits réservés</p>
-            <a href="{{ path('app_category') }}">liste des categories</a>
         </footer>
     </body>
 </html>

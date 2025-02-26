@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="p-4">
-                <div class="h-96 overflow-y-auto mb-4 space-y-4">
+                <div class="h-96 overflow-y-auto mb-4 space-y-4 messagescontainer">
                     {% for message in messages %}
                         <div class="flex {% if message.writer == app.user %}justify-end{% endif %}">
                             <div class="max-w-[75%] {% if message.writer == app.user %}bg-[#004C5E] text-white{% else %}bg-gray-100{% endif %} rounded-lg px-4 py-2">
@@ -52,24 +52,5 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const messagesContainer = document.querySelector('.overflow-y-auto');
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-    setInterval(function() {
-        fetch(window.location.href)
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newMessages = doc.querySelector('.overflow-y-auto').innerHTML;
-                if (messagesContainer.innerHTML !== newMessages) {
-                    messagesContainer.innerHTML = newMessages;
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                }
-            });
-    }, 3000);
-});
-</script>
+<script src="{{ asset('js/instant_message.js') }}" defer></script>
 {% endblock %}
