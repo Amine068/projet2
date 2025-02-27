@@ -49,6 +49,15 @@ final class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $roles = $form->get('roles')->getData();
+            // Ensure ROLE_USER is always present
+            if (!in_array('ROLE_USER', $roles)) {
+                $roles[] = 'ROLE_USER';
+            }
+            $user->setRoles($roles);
+            $user->setUsername($form->get('username')->getData());
+
             $entityManager->persist($user);
             $entityManager->flush();
             return $this->redirectToRoute('app_admin_user');

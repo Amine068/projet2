@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AdminUserType extends AbstractType
 {
@@ -31,8 +32,20 @@ class AdminUserType extends AbstractType
                 ],
                 'multiple' => true,
                 'expanded' => true,
+                'mapped' => false,
+                'data' => $this->getSelectedRoles($options['data']),
             ])
-        ;
+            ->add('valider', SubmitType::class, [
+                'label' => 'Valider',
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ]
+            ]);
+    }
+
+    private function getSelectedRoles(User $user): array
+    {
+        return $user->getRoles();
     }
 
     public function configureOptions(OptionsResolver $resolver): void
