@@ -6,8 +6,9 @@
 
 <div class="flex flex-grow">
 <nav class="flex flex-col gap-4 w-1/4 bg-[#004C5E] text-white p-4">
-    <a href="">Utilisateurs</a>
-    <a href="app_category">Catégorie</a>
+    <a href=" {{ path('app_admin_user') }} ">Utilisateurs</a>
+    <a href="{{ path('app_category') }}">Catégorie</a>
+    <a href="{{ path('app_reports') }}">Signalements</a>
 </nav>
 <div>
     <h1 class="text-[#004C5E] text-center text-2xl pb-4">Utilisateurs</h1>

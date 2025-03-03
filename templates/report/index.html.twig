@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Signaler une annonce{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h2 class="mb-0">Signaler cette annonce</h2>
+                </div>
+                <div class="card-body">
+                    <h4 class="mb-3">{{ annonce.title }}</h4>
+                    
+                    {{ form(form) }}
+                    
+                    <a href="{{ path('show_annonce', {'id': annonce.id}) }}" class="btn btn-secondary mt-3">Annuler</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

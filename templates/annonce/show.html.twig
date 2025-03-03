@@ -10,5 +10,5 @@
 <p>{{ annonce.price }} €</p>
 
 <a href="{{ path('app_message', {id: annonce.id}) }}" class="p-2 text-white bg-[#004C5E] rounded-md m-2">Contacter</a>
-
+<a href="{{ path('report_annonce', {id: annonce.id}) }}" class="p-2 text-white bg-[#004C5E] rounded-md m-2">Signaler</a>
 {% endblock %}

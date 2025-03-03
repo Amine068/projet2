@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Report;
 use App\Entity\Category;
 use App\Form\AdminUserType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,5 +68,44 @@ final class AdminController extends AbstractController
             "categories" => $categories,
             "form" => $form,
         ]);
+    }
+
+    #[Route('/admin/reports', name: 'app_reports')]
+    public function reports(EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MODERATEUR');
+
+        $categories = $entityManager->getRepository(Category::class)->findAll();
+        $reports = $entityManager->getRepository(Report::class)->findBy(['isHandled' => false]);
+
+        return $this->render('admin/reports.html.twig', [
+            "categories" => $categories,
+            "reports" => $reports,
+        ]);
+    }
+
+    #[Route('/admin/reports/{id}', name: 'show_reports')]
+    public function showReport(Report $report, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MODERATEUR');
+
+        $categories = $entityManager->getRepository(Category::class)->findAll();
+        $report = $entityManager->getRepository(Report::class)->findOneby(['id' => $report->getId()]);
+
+        return $this->render('admin/showreport.html.twig', [
+            "categories" => $categories,
+            "report" => $report,
+        ]);
+    }
+
+    public function handleReport(Report $report, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_MODERATEUR');
+
+        $report->setIsHandled(true);
+        $entityManager->persist($report);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_reports');
     }
 }
