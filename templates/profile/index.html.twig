@@ -38,7 +38,7 @@
                 <div class="mb-2">
                     <a href="{{ path('show_annonce', {id: annonce.id}) }}" class="text-blue-500 hover:underline">{{ annonce.title }}</a>
                     <a href="{{ path('edit_annonce', {id: annonce.id}) }}" class="text-yellow-500 hover:underline ml-2">Edit</a>
-                    <a href="{{ path('delete_annonce', {id: annonce.id}) }}" class="text-red-500 hover:underline ml-2">Delete</a>
+                    <a href="{{ path('archive_annonce', {id: annonce.id}) }}" class="text-red-500 hover:underline ml-2">Delete</a>
                     {# onclick="return confirm('Are you sure?')" #}
                     <div class="mt-2">
                         {% if annonce.images|length > 0 %}

@@ -1,10 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier l'utilisateur{% endblock %}
+{% block title %}Détail du signalement{% endblock %}
 
 {% block body %}
-
-
 <div class="flex flex-grow">
     <nav class="flex flex-col gap-4 w-1/4 bg-[#004C5E] text-white p-4">
         <a href=" {{ path('app_admin_user') }} ">Utilisateurs</a>
@@ -12,10 +10,10 @@
         <a href="{{ path('app_reports') }}">Signalements</a>
     </nav>
     <div>
-        {% for report in reports %}
-            <p> {{report.reason}} </p>
-            <a href="{{ path('show_report', {id: report.id}) }}">voir</a>
-        {% endfor %}
+        <a href="">Utilisateur: {{report.user.username}} </a>
+        <p> {{report.reason}} </p>
+        <a href="{{ path('delete_report', {id: report.id}) }}">Supprimer</a>
+        <a href="{{ path('ignore_report', {id: report.id}) }}">Ignorer</a>
     </div>
     </div>
 

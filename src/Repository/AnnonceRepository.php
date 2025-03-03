@@ -41,10 +41,14 @@ class AnnonceRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    // requette
     public function search($recherche): array
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.title LIKE :recherche')
+            ->andWhere('a.isArchived = false')
+            ->andWhere('a.isVisible = true')
+            ->andWhere('a.isLocked = false')
             ->setParameter('recherche', '%' . $recherche . '%')
             ->getQuery()
             ->getResult();

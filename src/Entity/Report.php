@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ReportRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ReportRepository;
 
 #[ORM\Entity(repositoryClass: ReportRepository::class)]
 class Report
@@ -27,8 +28,8 @@ class Report
     #[ORM\Column]
     private ?bool $isHandled = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $reportedAt = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $reportedAt = null;
 
     public function getId(): ?int
     {
@@ -83,12 +84,12 @@ class Report
         return $this;
     }
 
-    public function getReportedAt(): ?\DateTimeImmutable
+    public function getReportedAt(): ?\DateTimeInterface
     {
         return $this->reportedAt;
     }
 
-    public function setReportedAt(\DateTimeImmutable $reportedAt): static
+    public function setReportedAt(\DateTimeInterface $reportedAt): static
     {
         $this->reportedAt = $reportedAt;
 

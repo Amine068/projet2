@@ -24,6 +24,7 @@ final class AnnonceController extends AbstractController
         ]);
     }
 
+    // methode d'ajout et de modification d'une annonce
     #[Route('/annonce/new', name: 'add_new_annonce')]
     #[Route('/annonce/{id}/edit', name: 'edit_annonce')]
     public function newedit(Annonce $annonce = null, Request $request, EntityManagerInterface $entityManager): Response
@@ -50,28 +51,43 @@ final class AnnonceController extends AbstractController
         // on verifie si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // on récupère les images du formulaire envoyé par l'utilisateur
             $images = $form->get('images')->getData();
+            // on verifie si des images ont été envoyé
             if ($images) {
+                // on boucle sur les images de l'annonce pour les supprimer si elle existe
                 if ($annonce->getImages()) {
                     foreach ($annonce->getImages() as $image) {
+                        // supprime les images du dossier annonce_image_directory
                         unlink($this->getParameter('annonce_image_directory') . '/' . $image->getPath());
+                        // supprime l'image de l'entité
                         $entityManager->remove($image);
                     }
                 }
+                // on boucle sur les images envoyé par l'utilisateur
                 foreach ($images as $imageFile) {
+                    // vérification de la taille de l'image
                     if ($imageFile->getSize() > 1000000) {
                         $this->addFlash('error', 'L\'image ne doit pas dépasser 1Mo');
                         return $this->redirectToRoute('add_new_annonce');
                     }
+                    // vérification du type de l'image
                     if (!in_array($imageFile->getMimeType(), ['image/jpeg', 'image/png', 'image/webp'])) {
                         $this->addFlash('error', 'L\'image doit être au format jpeg ou png');
                         return $this->redirectToRoute('add_new_annonce');
                     }
+
+                    // création d'une nouvelle entité Image
                     $image = new Image();
+                    // génération d'un nom unique pour l'image
                     $newFilename = uniqid() . '.' . $imageFile->guessExtension();
+                    // ajout de l'image dans le dossier
                     $imageFile->move($this->getParameter('annonce_image_directory'), $newFilename);
+                    // ajout du nom de l'image dans l'entité Image
                     $image->setPath($newFilename);
+                    // ajout de l'entité Image dans l'entité Annonce
                     $annonce->addImage($image);
+                    // on previent doctrine de la creation/modification de l'entité image
                     $entityManager->persist($image);
                 }
             }
@@ -95,6 +111,9 @@ final class AnnonceController extends AbstractController
 
             // on rend l'annonce non vérouillé (permettra d'utiliser un système de signalement)
             $annonce->setIsLocked(false);
+
+            // on rend l'annonce non archivé
+            $annonce->setIsArchived(false);
 
             // on persiste l'entité annonce (requete préparé: protection contre les injection SQL)
             $entityManager->persist($annonce);
@@ -142,21 +161,27 @@ final class AnnonceController extends AbstractController
     //     return new JsonResponse(['subcategories' => $data]);
     // }
 
-    #[Route('/annonce/{id}/delete', name: 'delete_annonce')]
-    public function delete(Annonce $annonce, EntityManagerInterface $entityManager): Response
+    // methode de suppression d'une annonce (archivage)
+    #[Route('/annonce/{id}/archive', name: 'archive_annonce')]
+    public function archiveAnnonce(Annonce $annonce, EntityManagerInterface $entityManager): Response
     {
-        foreach ($annonce->getImages() as $image) {
-            unlink($this->getParameter('annonce_image_directory') . '/' . $image->getPath());
-        }
-        $entityManager->remove($annonce);
+        // on archive l'annonce
+        $annonce->setIsArchived(true);
+
+        // on previent doctrine de la modification d'une entité
+        $entityManager->persist($annonce);
+
+        // on execute
         $entityManager->flush();
 
+        // redirection vers le profil
         return $this->redirectToRoute('app_account');
     }
 
     #[Route('/annonce/{id}', name: 'show_annonce')]
     public function show(Annonce $annonce, EntityManagerInterface $entityManager): Response
     {
+        // recupération des catégorie pour le header
         $categories = $entityManager->getRepository(Category::class)->findAll();
 
 

@@ -84,6 +84,9 @@ class Annonce
     #[ORM\OneToMany(targetEntity: Report::class, mappedBy: 'annonce', orphanRemoval: true)]
     private Collection $reports;
 
+    #[ORM\Column]
+    private ?bool $isArchived = null;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -378,6 +381,18 @@ class Annonce
                 $report->setAnnonce(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }
