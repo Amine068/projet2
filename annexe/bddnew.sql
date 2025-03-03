@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.category : ~0 rows (environ)
+-- Listage des données de la table projet.category : ~9 rows (environ)
 INSERT INTO `category` (`id`, `name`) VALUES
 	(1, 'Vidéo & Son'),
 	(3, 'Ordinateur'),
@@ -94,7 +94,8 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
 
 -- Listage des données de la table projet.doctrine_migration_versions : ~0 rows (environ)
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-	('DoctrineMigrations\\Version20250224134724', '2025-02-24 13:47:28', 73);
+	('DoctrineMigrations\\Version20250224134724', '2025-02-24 13:47:28', 73),
+	('DoctrineMigrations\\Version20250303063048', '2025-03-03 06:31:00', 125);
 
 -- Listage de la structure de table projet. image
 CREATE TABLE IF NOT EXISTS `image` (
@@ -124,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   CONSTRAINT `FK_B6BD307F9AC0396` FOREIGN KEY (`conversation_id`) REFERENCES `conversation` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.message : ~0 rows (environ)
+-- Listage des données de la table projet.message : ~11 rows (environ)
 INSERT INTO `message` (`id`, `conversation_id`, `writer_id`, `text`, `send_date`) VALUES
 	(1, 1, 2, 'test', '2025-02-24 13:58:06'),
 	(2, 1, 2, 'aaa', '2025-02-24 13:58:46'),
@@ -155,6 +156,23 @@ CREATE TABLE IF NOT EXISTS `messenger_messages` (
 
 -- Listage des données de la table projet.messenger_messages : ~0 rows (environ)
 
+-- Listage de la structure de table projet. report
+CREATE TABLE IF NOT EXISTS `report` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `annonce_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `reason` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_handled` tinyint(1) NOT NULL,
+  `reported_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+  PRIMARY KEY (`id`),
+  KEY `IDX_C42F77848805AB2F` (`annonce_id`),
+  KEY `IDX_C42F7784A76ED395` (`user_id`),
+  CONSTRAINT `FK_C42F77848805AB2F` FOREIGN KEY (`annonce_id`) REFERENCES `annonce` (`id`),
+  CONSTRAINT `FK_C42F7784A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage des données de la table projet.report : ~0 rows (environ)
+
 -- Listage de la structure de table projet. subcategory
 CREATE TABLE IF NOT EXISTS `subcategory` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -165,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `subcategory` (
   CONSTRAINT `FK_DDCA44812469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.subcategory : ~0 rows (environ)
+-- Listage des données de la table projet.subcategory : ~33 rows (environ)
 INSERT INTO `subcategory` (`id`, `category_id`, `name`) VALUES
 	(2, 1, 'Retroprojecteur'),
 	(3, 1, 'table de mixage'),
@@ -216,10 +234,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `UNIQ_IDENTIFIER_EMAIL` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.user : ~0 rows (environ)
+-- Listage des données de la table projet.user : ~2 rows (environ)
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `google_id`, `username`, `avatar`, `is_anonymize`) VALUES
-	(1, 'aminebouguettaya5@gmail.com', '["ROLE_USER"]', NULL, 0, '111905829402869664208', 'Amine', NULL, 0),
-	(2, 'tizane005@gmail.com', '["ROLE_USER"]', NULL, 0, '118425511114362492438', 'tizane', NULL, 0);
+	(1, 'aminebouguettaya5@gmail.com', '["ROLE_ADMIN"]', NULL, 0, '111905829402869664208', 'Amine', NULL, 0),
+	(2, 'tizane005@gmail.com', '["ROLE_USER", "ROLE_MODERATEUR", "ROLE_ADMIN"]', NULL, 0, '118425511114362492438', 'tizanee', NULL, 0);
 
 -- Listage de la structure de table projet. user_favorite_annonce
 CREATE TABLE IF NOT EXISTS `user_favorite_annonce` (
