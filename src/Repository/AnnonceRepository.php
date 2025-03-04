@@ -42,15 +42,50 @@ class AnnonceRepository extends ServiceEntityRepository
     //    }
 
     // requette
-    public function search($recherche): array
+    public function search(): array
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.title LIKE :recherche')
+            ->andWhere('a.isValidated = true')
             ->andWhere('a.isArchived = false')
             ->andWhere('a.isVisible = true')
             ->andWhere('a.isLocked = false')
-            ->setParameter('recherche', '%' . $recherche . '%')
             ->getQuery()
             ->getResult();
+    }
+
+    public function searchWithFilter($recherche, $categoryFilter, $subcategoryFilter, $localisation, $prixMin, $prixMax): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->andWhere('a.isValidated = true')
+            ->andWhere('a.isArchived = false')
+            ->andWhere('a.isVisible = true')
+            ->andWhere('a.isLocked = false');
+
+        if ($recherche != null) {
+            $qb->andWhere('a.title LIKE :recherche');
+            $qb->setParameter('recherche', '%' . $recherche . '%');
+        }
+        if ($categoryFilter != null) {
+            $qb->andWhere('a.category = :category');
+            $qb->setParameter('category', $categoryFilter);
+        }
+        if ($subcategoryFilter != null) {
+            $qb->andWhere('a.subcategory = :subcategory');
+            $qb->setParameter('subcategory', $subcategoryFilter);
+        }
+        if ($localisation != null) {
+            $qb->andWhere('a.city = :city');
+            $qb->setParameter('city', $localisation);
+        }
+        if ($prixMin != null) {
+            $qb->andWhere('a.price >= :prixMin');
+            $qb->setParameter('prixMin', $prixMin);
+        }
+        if ($prixMax != null) {
+            $qb->andWhere('a.price <= :prixMax');
+            $qb->setParameter('prixMax', $prixMax);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }

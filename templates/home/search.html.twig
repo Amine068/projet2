@@ -2,18 +2,39 @@
 
 {% block title %}Accueil{% endblock %}
 
+
+{% block javascripts %}
+    <script src="{{asset('js/script_recherche.js')}}" defer></script>
+{% endblock javascripts %}
+
 {% block body %}
 
 <div class="container mx-auto p-4">
-    {% for message in app.flashes('error') %}
-    <div class="alert">
-        {{ message }}
-    </div>
-{% endfor %}
     <h1 class="text-3xl font-bold mb-4">Accueil</h1>
+    <div class="">
+        <form action="{{ path('search_annonces') }}" method="GET" class="flex flex-row gap-2">
+            <select name="categoryFilter" id="categoryFilter">
+                <option selected disabled>Choisissez une categorie</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <select name="subcategoryFilter" id="subcategoryFilter" disabled>
+                <option value selected>Choisissez une sous-catégorie</option>
+            </select>
+            <div class="w-48 relative">
+                <input type="text" id="cityLocalisation" name="localisation" placeholder="Localisation (Ville)">
+                <ul id="cityList"></ul>
+            </div>
+            <input type="text" name="prixMin" placeholder="Prix min">
+            <input type="text" name="prixMax" placeholder="Prix max">
 
+            <input type="submit" value="Appliquer">
+        </form>
+    </div>
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-        <ul class="list-disc pl-5">
+        {% if annonces|length > 0  %}
+        <ul class="list-disc pl-5" id="annonceContainer">
             {% for annonce in annonces %}
                 <div class="mb-2">
                     <a href="{{ path('show_annonce', {id: annonce.id}) }}" class="text-blue-500 hover:underline">{{ annonce.title }}</a>
@@ -47,6 +68,9 @@
                 </div>
             {% endfor %}
         </ul>
+        {% else %}
+        <p>Aucune annonce trouvée</p>
+        {% endif %}      
     </div>
 </div>
 

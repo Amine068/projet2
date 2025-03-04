@@ -46,11 +46,41 @@ CREATE TABLE IF NOT EXISTS `annonce` (
   CONSTRAINT `FK_F65593E5A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.annonce : ~3 rows (environ)
+-- Listage des données de la table projet.annonce : ~33 rows (environ)
 INSERT INTO `annonce` (`id`, `subcategory_id`, `user_id`, `category_id`, `title`, `description`, `date_of_post`, `price`, `state`, `city`, `zipcode`, `is_validated`, `is_visible`, `is_locked`, `is_archived`, `telephone`) VALUES
-	(1, 2, 7, 1, 'Testt', 'aaaa', '2025-02-24 13:50:04', 216, 'Neuf', 'Mulhouse', '68100', 0, 1, 0, 0, '0101010101'),
-	(2, 2, 7, 1, 'aaa', 'aaaa', '2025-03-03 12:47:48', 21, 'Bon état', 'Mulhouse', '68100', 0, 1, 0, 0, '0101010101'),
-	(3, 9, 8, 4, 'aaa', 'aaa', '2025-03-03 13:44:11', 222, 'Neuf', 'Mulhouse', '68100', 0, 1, 0, 1, '0101010101');
+	(1, 2, 7, 1, 'Testt', 'aaaa', '2025-02-24 13:50:04', 216, 'Neuf', 'Mulhouse', '68100', 1, 1, 0, 0, '0101010101'),
+	(2, 2, 7, 1, 'aaa', 'aaaa', '2025-03-03 12:47:48', 21, 'Bon état', 'Mulhouse', '68100', 1, 1, 0, 0, '0101010101'),
+	(3, 9, 8, 4, 'aaa', 'aaa', '2025-03-03 13:44:11', 222, 'Neuf', 'Mulhouse', '68100', 1, 1, 0, 0, '0101010101'),
+	(4, 6, 2, 3, 'Ordinateur portable gaming', 'PC portable pour les jeux vidéo', '2025-03-04 10:00:00', 899.99, 'Neuf', 'Paris', '75001', 1, 1, 0, 0, '0123456789'),
+	(5, 7, 3, 3, 'Ordinateur de bureau', 'PC de bureau pour le travail', '2025-03-04 11:00:00', 699.99, 'Bon état', 'Lyon', '69001', 1, 1, 0, 0, '0987654321'),
+	(6, 8, 4, 3, 'Station de travail', 'PC puissant pour les professionnels', '2025-03-04 12:00:00', 1299.99, 'Neuf', 'Marseille', '13001', 1, 1, 0, 0, '0123456789'),
+	(7, 9, 5, 4, 'Sacoche pour ordinateur', 'Sacoche pour transporter votre PC', '2025-03-04 13:00:00', 29.99, 'Neuf', 'Toulouse', '31000', 1, 1, 0, 0, '0987654321'),
+	(8, 10, 6, 4, 'Support ordinateur portable', 'Support pour PC portable', '2025-03-04 14:00:00', 19.99, 'Bon état', 'Nice', '06000', 1, 1, 0, 0, '0123456789'),
+	(9, 11, 7, 4, 'Disque dur externe', 'Disque dur pour sauvegarder vos données', '2025-03-04 15:00:00', 79.99, 'Neuf', 'Nantes', '44000', 1, 1, 0, 0, '0987654321'),
+	(10, 12, 8, 4, 'Adaptateur USB', 'Adaptateur pour connecter vos périphériques', '2025-03-04 16:00:00', 9.99, 'Bon état', 'Strasbourg', '67000', 1, 1, 0, 0, '0123456789'),
+	(11, 13, 9, 4, 'Câble USB', 'Câble pour charger vos appareils', '2025-03-04 17:00:00', 4.99, 'Neuf', 'Montpellier', '34000', 1, 1, 0, 0, '0987654321'),
+	(12, 14, 10, 5, 'Appareil photo reflex', 'Appareil photo pour les passionnés', '2025-03-04 18:00:00', 499.99, 'Bon état', 'Bordeaux', '33000', 1, 1, 0, 0, '0123456789'),
+	(13, 15, 11, 5, 'Caméra d\'action', 'Caméra pour filmer vos aventures', '2025-03-04 19:00:00', 199.99, 'Neuf', 'Lille', '59000', 1, 1, 0, 0, '0987654321'),
+	(14, 16, 12, 5, 'Objectif photo', 'Objectif pour votre appareil photo', '2025-03-04 20:00:00', 99.99, 'Bon état', 'Rennes', '35000', 1, 1, 0, 0, '0123456789'),
+	(15, 17, 13, 5, 'Trépied', 'Trépied pour stabiliser votre appareil photo', '2025-03-04 21:00:00', 29.99, 'Neuf', 'Reims', '51100', 1, 1, 0, 0, '0987654321'),
+	(16, 18, 14, 6, 'Smartphone', 'Téléphone portable dernier cri', '2025-03-04 22:00:00', 699.99, 'Neuf', 'Le Havre', '76600', 1, 1, 0, 0, '0123456789'),
+	(17, 19, 2, 6, 'Coque de téléphone', 'Coque pour protéger votre smartphone', '2025-03-04 23:00:00', 14.99, 'Bon état', 'Saint-Étienne', '42000', 1, 1, 0, 0, '0987654321'),
+	(18, 20, 3, 6, 'Chargeur sans fil', 'Chargeur pour recharger votre téléphone sans fil', '2025-03-05 00:00:00', 29.99, 'Neuf', 'Toulon', '83000', 1, 1, 0, 0, '0123456789'),
+	(19, 21, 4, 6, 'Support de téléphone', 'Support pour poser votre téléphone', '2025-03-05 01:00:00', 9.99, 'Bon état', 'Grenoble', '38000', 1, 1, 0, 0, '0987654321'),
+	(20, 22, 5, 7, 'Jeux vidéo', 'Jeux pour console', '2025-03-05 02:00:00', 49.99, 'Neuf', 'Dijon', '21000', 1, 1, 0, 0, '0123456789'),
+	(21, 23, 6, 7, 'Casque VR', 'Casque de réalité virtuelle', '2025-03-05 03:00:00', 299.99, 'Bon état', 'Angers', '49000', 1, 1, 0, 0, '0987654321'),
+	(22, 24, 7, 8, 'Console de jeux', 'Console pour jouer à vos jeux préférés', '2025-03-05 04:00:00', 399.99, 'Neuf', 'Villeurbanne', '69100', 1, 1, 0, 0, '0123456789'),
+	(23, 26, 8, 8, 'Manette de jeu', 'Manette pour votre console', '2025-03-05 05:00:00', 49.99, 'Bon état', 'Nîmes', '30000', 1, 1, 0, 0, '0987654321'),
+	(24, 27, 9, 8, 'Carte mémoire', 'Carte mémoire pour stocker vos jeux', '2025-03-05 06:00:00', 19.99, 'Neuf', 'Aix-en-Provence', '13090', 1, 1, 0, 0, '0123456789'),
+	(25, 28, 10, 8, 'Volant de course', 'Volant pour vos jeux de course', '2025-03-05 07:00:00', 149.99, 'Bon état', 'Brest', '29200', 1, 1, 0, 0, '0987654321'),
+	(26, 29, 11, 9, 'Réfrigérateur', 'Réfrigérateur pour votre cuisine', '2025-03-05 08:00:00', 499.99, 'Neuf', 'Le Mans', '72000', 1, 1, 0, 0, '0123456789'),
+	(27, 30, 12, 9, 'Lave-linge', 'Machine à laver pour votre linge', '2025-03-05 09:00:00', 399.99, 'Bon état', 'Clermont-Ferrand', '63000', 1, 1, 0, 0, '0987654321'),
+	(28, 31, 13, 9, 'Aspirateur', 'Aspirateur pour nettoyer votre maison', '2025-03-05 10:00:00', 149.99, 'Neuf', 'Tours', '37000', 1, 1, 0, 0, '0123456789'),
+	(29, 32, 14, 9, 'Four', 'Four pour cuisiner vos plats', '2025-03-05 11:00:00', 299.99, 'Bon état', 'Amiens', '80000', 1, 1, 0, 0, '0987654321'),
+	(30, 33, 2, 10, 'Montre connectée', 'Montre pour suivre votre activité', '2025-03-05 12:00:00', 99.99, 'Neuf', 'Limoges', '87000', 1, 1, 0, 0, '0123456789'),
+	(31, 34, 3, 10, 'Objet connecté', 'Objet connecté pour votre maison', '2025-03-05 13:00:00', 49.99, 'Bon état', 'Annecy', '74000', 1, 1, 0, 0, '0987654321'),
+	(32, 35, 4, 10, 'Accessoire pour smartphone', 'Accessoire pour votre téléphone', '2025-03-05 14:00:00', 19.99, 'Neuf', 'Boulogne-Billancourt', '92100', 1, 1, 0, 0, '0123456789'),
+	(33, 2, 5, 1, 'Retroprojecteur', 'Retroprojecteur pour vos présentations', '2025-03-05 15:00:00', 299.99, 'Bon état', 'Metz', '57000', 1, 1, 0, 0, '0987654321');
 
 -- Listage de la structure de table projet. category
 CREATE TABLE IF NOT EXISTS `category` (
@@ -111,9 +141,9 @@ CREATE TABLE IF NOT EXISTS `image` (
   CONSTRAINT `FK_C53D045F8805AB2F` FOREIGN KEY (`annonce_id`) REFERENCES `annonce` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.image : ~0 rows (environ)
+-- Listage des données de la table projet.image : ~3 rows (environ)
 INSERT INTO `image` (`id`, `annonce_id`, `path`) VALUES
-	(1, 1, '67bc790cad314.jpg'),
+	(1, 1, '67c5b22b6c2bc.png'),
 	(2, 2, '67c5a4f4be311.png'),
 	(3, 3, '67c5b22b6c2bc.png');
 
@@ -131,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   CONSTRAINT `FK_B6BD307F9AC0396` FOREIGN KEY (`conversation_id`) REFERENCES `conversation` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.message : ~13 rows (environ)
+-- Listage des données de la table projet.message : ~0 rows (environ)
 
 -- Listage de la structure de table projet. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
@@ -165,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `report` (
   CONSTRAINT `FK_C42F7784A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.report : ~0 rows (environ)
+-- Listage des données de la table projet.report : ~2 rows (environ)
 INSERT INTO `report` (`id`, `annonce_id`, `user_id`, `reason`, `is_handled`, `reported_at`) VALUES
 	(7, 3, 7, 'annonce non conforme', 1, '2025-03-03 13:56:46'),
 	(8, 2, 7, 'annonce', 0, '2025-03-03 14:04:55');
@@ -229,9 +259,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `is_anonymize` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_EMAIL` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.user : ~7 rows (environ)
+-- Listage des données de la table projet.user : ~14 rows (environ)
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `google_id`, `username`, `avatar`, `is_anonymize`) VALUES
 	(1, '2182aa8056694e570c8f8a7956b0d48ff9d971a12171801e394ec96c4e4d4361', '["ROLE_DELETE"]', 'ddb4108226edf511398f1b6658371c1273601ba987894a117f44bc9637d644eb', 0, NULL, '67c567e3b2c0e', NULL, 1),
 	(2, 'tizane005@gmail.com', '["ROLE_USER", "ROLE_MODERATEUR"]', NULL, 0, '118425511114362492438', 'tizanee', NULL, 0),
@@ -240,7 +270,13 @@ INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `google_i
 	(5, 'ba1adce6ff0ff44d58c06eaa78fcd36264d8fa1bb1a7c8ddbf2f3bb2be5f0f73', '["ROLE_DELETE"]', '2d420ff50acfa3cc343585597274020fe4e29885706e4e2ffcb1e263c757d53f', 1, NULL, '67c5687f37007', NULL, 1),
 	(6, '9a8cfbb3fab698feb3d7ef07e0eac7f13359b0a89467fa98ec3efeb0c13a5229', '["ROLE_DELETE"]', '92f5a387c9ea18b3e11a425edb16d8efd41cbdd3ffeedcfd3737032809a5676e', 1, NULL, '67c568b2ea995', NULL, 1),
 	(7, 'aminebouguettaya5@gmail.com', '["ROLE_ADMIN"]', NULL, 1, '111905829402869664208', 'Amine', NULL, 0),
-	(8, 'aaa@aaa.fr', '["ROLE_USER"]', '$2y$13$xIJAAJitCqbWHRIu4j.90e7EamNLBT/m2Uy8HeDSS9opoRqjXwyNq', 1, NULL, 'aaaa', NULL, 0);
+	(8, 'aaa@aaa.fr', '["ROLE_USER"]', '$2y$13$xIJAAJitCqbWHRIu4j.90e7EamNLBT/m2Uy8HeDSS9opoRqjXwyNq', 1, NULL, 'aaaa', NULL, 0),
+	(9, 'ccc@ccc.fr', '["ROLE_USER"]', '$2y$13$qFIkLlZqe6MDsMRFXBb5SOF.bkWleGKJat/v3lftXBSHnpmR3Y5t2', 0, NULL, 'ccc', NULL, 0),
+	(10, 'user1@example.com', '["ROLE_USER"]', 'password1', 1, NULL, 'john_doe', NULL, 0),
+	(11, 'user2@example.com', '["ROLE_USER"]', 'password2', 1, NULL, 'jane_doe', NULL, 0),
+	(12, 'user3@example.com', '["ROLE_MODERATEUR"]', 'password3', 1, NULL, 'mod_user', NULL, 0),
+	(13, 'user4@example.com', '["ROLE_USER"]', 'password4', 1, NULL, 'random_user', NULL, 0),
+	(14, 'user5@example.com', '["ROLE_ADMIN"]', 'password5', 1, NULL, 'admin_user', NULL, 0);
 
 -- Listage de la structure de table projet. user_favorite_annonce
 CREATE TABLE IF NOT EXISTS `user_favorite_annonce` (
